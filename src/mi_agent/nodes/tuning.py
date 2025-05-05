@@ -1,0 +1,81 @@
+"""Node: hyperparameter tuning via Optuna in PyCaret."""
+import pandas as pd
+from mi_agent.states import MIExpertState
+import pycaret.classification as clf
+import pycaret.regression as reg
+
+
+class HyperparameterTuner:
+    """Tune each of the 5 baseline models via PyCaret + Optuna."""
+
+    @staticmethod
+    def hyperparameter_tuning(state: MIExpertState) -> dict:
+        """Return best_model_name, best_model_object, best_params."""
+
+        # load data & state
+        df        = pd.read_csv(state["file_paths"][0])
+        target    = state["target_column"]
+        task      = state["task_type"]
+        name_list = state["initial_models"]
+
+        # build lookup Name → ID
+        table  = clf.models() if task == "classification" else reg.models()
+        id_map = {
+            "".join(row["Name"].split()).lower(): model_id
+            for model_id, row in table.iterrows()
+        }
+
+        # resolve names → IDs
+        ids = [
+            id_map[n.lower().replace(" ", "")]
+            for n in name_list
+            if n.lower().replace(" ", "") in id_map
+        ]
+
+        # re-initialize PyCaret & tune
+        if task == "classification":
+            clf.setup(df, target=target, html=False)
+            tuned = []
+            for mid in ids:
+                base = clf.create_model(mid)
+                try:
+                    tuned_model = clf.tune_model(
+                        base,
+                        n_iter=30,
+                        search_library='optuna',
+                        search_algorithm='tpe',
+                        optimize='Accuracy',
+                        choose_better=True
+                    )
+                except ValueError:
+                    tuned_model = base
+                tuned.append(tuned_model)
+            best = clf.compare_models(include=tuned, n_select=1)
+
+        else:
+            reg.setup(df, target=target, html=False)
+            tuned = []
+            for mid in ids:
+                base = reg.create_model(mid)
+                try:
+                    tuned_model = reg.tune_model(
+                        base,
+                        n_iter=30,
+                        search_library='optuna',
+                        search_algorithm='tpe',
+                        optimize='R2',
+                        choose_better=True
+                    )
+                except ValueError:
+                    tuned_model = base
+                tuned.append(tuned_model)
+            best = reg.compare_models(include=tuned, n_select=1)
+
+        if isinstance(best, list):
+            best = best[0]
+
+        return {
+            "best_model_name": type(best).__name__,
+            "best_model_object": best,
+            "best_params": best.get_params()
+        }

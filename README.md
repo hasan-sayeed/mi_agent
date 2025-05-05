@@ -1,71 +1,125 @@
 [![Project generated with PyScaffold](https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold)](https://pyscaffold.org/)
 <!-- These are examples of badges you might also want to add to your README. Update the URLs accordingly.
-[![Built Status](https://api.cirrus-ci.com/github/<USER>/mi_agent.svg?branch=main)](https://cirrus-ci.com/github/<USER>/mi_agent)
-[![ReadTheDocs](https://readthedocs.org/projects/mi_agent/badge/?version=latest)](https://mi_agent.readthedocs.io/en/stable/)
-[![Coveralls](https://img.shields.io/coveralls/github/<USER>/mi_agent/main.svg)](https://coveralls.io/r/<USER>/mi_agent)
-[![PyPI-Server](https://img.shields.io/pypi/v/mi_agent.svg)](https://pypi.org/project/mi_agent/)
-[![Conda-Forge](https://img.shields.io/conda/vn/conda-forge/mi_agent.svg)](https://anaconda.org/conda-forge/mi_agent)
-[![Monthly Downloads](https://pepy.tech/badge/mi_agent/month)](https://pepy.tech/project/mi_agent)
-[![Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Twitter)](https://twitter.com/mi_agent)
+[![Built Status](https://api.cirrus-ci.com/github/<USER>/MI-Agent.svg?branch=main)](https://cirrus-ci.com/github/<USER>/MI-Agent)
+[![ReadTheDocs](https://readthedocs.org/projects/MI-Agent/badge/?version=latest)](https://MI-Agent.readthedocs.io/en/stable/)
+[![Coveralls](https://img.shields.io/coveralls/github/<USER>/MI-Agent/main.svg)](https://coveralls.io/r/<USER>/MI-Agent)
+[![PyPI-Server](https://img.shields.io/pypi/v/MI-Agent.svg)](https://pypi.org/project/MI-Agent/)
+[![Conda-Forge](https://img.shields.io/conda/vn/conda-forge/MI-Agent.svg)](https://anaconda.org/conda-forge/MI-Agent)
+[![Monthly Downloads](https://pepy.tech/badge/MI-Agent/month)](https://pepy.tech/project/MI-Agent)
+[![Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Twitter)](https://twitter.com/MI-Agent)
 -->
 
-# mi_agent
+# MI-Agent
 
-> Add a short description here!
+An **agentic workflow** for materials-informatics (MI) engineers, built with **LangGraph** and powered by OpenAI models. MI-Agent codifies the end-to-end MI pipeline—data loading, merging, feature selection, EDA, AutoML baselining, hyperparameter tuning, and executive reporting—into reusable nodes orchestrated as a LangGraph. LangSmith integration tracks and visualizes your graph executions. The result? MI workflows that run in seconds instead of hours, boosting your productivity by an order of magnitude.
 
-A longer description of your project goes here...
+---
 
-## Installation
+## 🚀 Why MI-Agent?
 
-In order to set up the necessary environment:
+- **Agentic LangGraph design** lets you hit “play” on a full MI pipeline  
+- **10× faster**: eliminate boilerplate and manual scripting  
+- **Extensible nodes**: swap in your own extractors, metrics, or plots  
+- **LangSmith-backed** for graph tracking, versioning, and observability  
+- Production-ready: versionable, testable, pip-installable
 
-1. review and uncomment what you need in `environment.yml` and create an environment `mi_agent` with the help of [conda]:
-   ```
-   conda env create -f environment.yml
-   ```
-2. activate the new environment with:
-   ```
-   conda activate mi_agent
-   ```
+---
 
-> **_NOTE:_**  The conda environment will have mi_agent installed in editable mode.
-> Some changes, e.g. in `setup.cfg`, might require you to run `pip install -e .` again.
+## 🛠️ Prerequisites
 
+- **Conda** (Miniconda or Anaconda)  
+- **Python 3.10**  
+- **OpenAI API key**  
+- **LangSmith API key**  
 
-Optional and needed only once after `git clone`:
+---
 
-3. install several [pre-commit] git hooks with:
+## Quickstart: Installation via pip
+
+1. Create & activate a conda environment  
    ```bash
-   pre-commit install
-   # You might also want to run `pre-commit autoupdate`
+   conda create -n mi-agent python=3.10 -y
+   conda activate mi-agent
    ```
-   and checkout the configuration under `.pre-commit-config.yaml`.
-   The `-n, --no-verify` flag of `git commit` can be used to deactivate pre-commit hooks temporarily.
 
-4. install [nbstripout] git hooks to remove the output cells of committed notebooks with:
+2. Install via pip
    ```bash
-   nbstripout --install --attributes notebooks/.gitattributes
+   pip install mi-agent
    ```
-   This is useful to avoid large diffs due to plots in your notebooks.
-   A simple `nbstripout --uninstall` will revert these changes.
 
-
-Then take a look into the `scripts` and `notebooks` folders.
-
-## Dependency Management & Reproducibility
-
-1. Always keep your abstract (unpinned) dependencies updated in `environment.yml` and eventually
-   in `setup.cfg` if you want to ship and install your package via `pip` later on.
-2. Create concrete dependencies as `environment.lock.yml` for the exact reproduction of your
-   environment with:
+3. Configure your API keys
+   
+   Create a `.env` file in your project folder:
    ```bash
-   conda env export -n mi_agent -f environment.lock.yml
+   LANGCHAIN_API_KEY=lsv2_...
+   OPENAI_API_KEY=sk-...
    ```
-   For multi-OS development, consider using `--no-builds` during the export.
-3. Update your current environment with respect to a new `environment.lock.yml` using:
+
+4. Prepare your problem file
+   
+   MI-Agent requires a `.txt` file (an example is provided in the `sample_problem.txt` in the project root) which contains:
+
+   - your problem description
+
+   - relative paths to your CSV(s), **including any folder prefix** (e.g. `data/sample_data.csv`)
+
+   Example `problem.txt`:
    ```bash
-   conda env update -f environment.lock.yml --prune
+   You are tasked with predicting alloy strength from composition data...
+
+   - data/sample_data_1.csv: Contains experimental results...
+   - data/sample_data_2.csv: Contains formulation recipes...
    ```
+
+5. Run the agent
+   ```bash
+   mi_agent --problem-file <path/to/problem.txt> --output-dir <path/to/output_dir>
+   ```
+
+   MI-Agent will:
+
+   - Identify & load the CSV(s) listed in the problem file
+   - Merge files if needed
+   - Select target & features
+   - Propose & execute EDA
+   - Save all generated code (`*.py`) for EDA analysi and images (`*.png`) generated during EDA into <output_dir>
+   - Run AutoML baseline + hyperparameter tuning
+   - Emit a two-page executive summary
+   - Log every step to LangSmith
+
+
+## From source: clone & run
+
+1. Clone the repo
+   ```bash
+   git clone https://github.com/hasan-sayeed/MI-Agent.git
+   cd MI-Agent
+   ```
+
+2. Create & activate the conda env from `environment.yml`
+   ```bash
+   conda env create -f environment.yml -n mi-agent
+   conda activate mi-agent
+   ```
+
+3. Install in editable mode
+   ```bash
+   pip install -e .
+   ```
+
+4. Configure your API keys
+   
+   Create a `.env` file in the project root (next to `README.md` and `setup.py`):
+   ```bash
+   LANGCHAIN_API_KEY=lsv2_...
+   OPENAI_API_KEY=sk-...
+   ```
+
+5. Prepare your problem file as above and then:
+   ```bash
+   mi_agent --problem-file <path/to/problem.txt> --output-dir <path/to/output_dir>
+   ```
+
 ## Project Organization
 
 ```
@@ -107,6 +161,28 @@ Then take a look into the `scripts` and `notebooks` folders.
 ```
 
 <!-- pyscaffold-notes -->
+
+## Contributing
+
+1. Fork & clone this repository
+
+2. Create a feature branch
+
+3. Implement your node, extractor, or fix & add tests
+
+4. Open a Pull Request, describing your changes and any new configs
+
+We welcome improvements, new extractors, and integrations!
+
+## Feedback & Feature Requests
+
+Your feedback drives MI-Agent’s roadmap!
+
+- Open an issue on GitHub
+
+- Email the maintainers at `hasan.sayeed.utah.edu`
+
+Let’s make materials-informatics ten times faster—together!
 
 ## Note
 

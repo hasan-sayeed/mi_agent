@@ -1,0 +1,7 @@
+A company that manufactures metal components for marine environments wants to speed up the process of developing corrosion-resistant alloys. They often test different metal alloys by immersing them in saltwater and measuring how much they corrode over time.
+
+You are provided with two CSV files:
+
+1. `./my_data/alloy_composition.csv`: This file lists different alloy samples with their composition (e.g., % Fe, % Ni, % Cr, etc.).
+
+2. `./my_data/corrosion_test_results.csv`: This file contains experimental test results on how much corrosion was observed for each sample after 30 days in saltwater.

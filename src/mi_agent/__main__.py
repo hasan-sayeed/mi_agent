@@ -1,0 +1,40 @@
+import argparse
+from dotenv import load_dotenv
+from mi_agent.app_config import Settings, settings
+
+load_dotenv()
+
+def main():
+    p = argparse.ArgumentParser(
+        prog="mi-agent",
+        description="Run the MI-Agent pipeline end-to-end"
+    )
+    p.add_argument(
+        "-p", "--problem-file",
+        help="Path to a .txt file containing the problem statement"
+    )
+    p.add_argument(
+        "-o", "--output-dir",
+        help="Where to save generated code, images, PDF (defaults to data/)",
+    )
+    p.add_argument(
+        "-m", "--model",
+        help="OpenAI model name to use (defaults to gpt-4.1-mini)",
+    )
+    args = p.parse_args()
+
+    # 1) Collect CLI overrides
+    override = {}
+    if args.output_dir:
+        override["output_dir"] = args.output_dir
+    if args.model:
+        override["model_name"] = args.model
+    # 2) Re-create and inject into our singleton
+    new_settings = Settings(**override)
+    settings.__dict__.update(new_settings.model_dump())
+    
+    from mi_agent import orchestrator  # delay until settings is updated
+    orchestrator.run(problem_txt_path=args.problem_file)
+
+if __name__ == "__main__":
+    main()
