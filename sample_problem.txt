@@ -2,6 +2,6 @@ A company that manufactures metal components for marine environments wants to sp
 
 You are provided with two CSV files:
 
-1. `./my_data/alloy_composition.csv`: This file lists different alloy samples with their composition (e.g., % Fe, % Ni, % Cr, etc.).
+1. `my_data/alloy_composition.csv`: This file lists different alloy samples with their composition (e.g., % Fe, % Ni, % Cr, etc.).
 
-2. `./my_data/corrosion_test_results.csv`: This file contains experimental test results on how much corrosion was observed for each sample after 30 days in saltwater.
+2. `my_data/corrosion_test_results.csv`: This file contains experimental test results on how much corrosion was observed for each sample after 30 days in saltwater.

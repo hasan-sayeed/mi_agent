@@ -1,12 +1,9 @@
 import argparse
-from dotenv import load_dotenv
 from mi_agent.app_config import Settings, settings
-
-load_dotenv()
 
 def main():
     p = argparse.ArgumentParser(
-        prog="mi-agent",
+        prog="mi_agent",
         description="Run the MI-Agent pipeline end-to-end"
     )
     p.add_argument(
