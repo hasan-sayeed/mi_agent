@@ -45,6 +45,7 @@ if __name__ == "__main__":
             "console_scripts": [
                 # now running `mi-agent ...` will invoke mi_agent.__main__.main()
                 "materials_informatics_agent = mi_agent.__main__:main",
+                "mi_agent = mi_agent.__main__:main",
             ],
         },
         # ---------------------------------------------------

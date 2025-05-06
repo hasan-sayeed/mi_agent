@@ -74,7 +74,7 @@ An **agentic workflow** for materials-informatics (MI) engineers, built with **L
 
    Now, invoke `mi_agent …` in the same terminal session you entered your API keys:
    ```bash
-   materials_informatics_agent --problem-file <path/to/problem.txt> --output-dir <path/to/output_dir>
+   mi_agent --problem-file <path/to/problem.txt> --output-dir <path/to/output_dir>
    ```
 
    MI-Agent will:
