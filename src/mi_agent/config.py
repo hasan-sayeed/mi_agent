@@ -27,10 +27,8 @@ else:
         env_path = find_dotenv(usecwd=True) or ""
 
 if env_path:
-    print(f"🔍 Loading environment from: {env_path}", file=sys.stderr)
+    print(f"🔍 Loading environment variables from: {env_path}", file=sys.stderr)
     load_dotenv(env_path, override=False)
-else:
-    print("⚠️  No .env found in CWD, MI_AGENT_ENV_FILE, or parent dirs", file=sys.stderr)
 
 # now prompt for anything still missing
 def set_env(var: str):

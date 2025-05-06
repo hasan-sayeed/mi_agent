@@ -18,7 +18,6 @@ from mi_agent.nodes.report import ReportGenerator
 from mi_agent.nodes.merge import MergeNode
 from mi_agent.states import MIExpertState, EDAExecutionState
 from mi_agent.app_config import Settings, settings
-from mi_agent.config import env_path
 
 def initiate_eda_executions(state: MIExpertState):
     return [
@@ -82,7 +81,7 @@ def run(
         output_dir:    Optional override of mi_agent.config.OUTPUT_DIR;
                        if None, falls back to the environment‐aware default.
     """
-    print(f"🔍 Loading environment variables from: {env_path}")
+    
     # target_dir = settings.output_dir
     # 1) Collect CLI overrides
     override = {}
