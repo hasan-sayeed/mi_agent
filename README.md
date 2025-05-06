@@ -44,7 +44,7 @@ An **agentic workflow** for materials-informatics (MI) engineers, built with **L
 
 2. Install via pip
    ```bash
-   pip install mi_agent
+   pip install materials_informatics_agent
    ```
 
 3. Configure your API keys **for this session**
@@ -85,7 +85,7 @@ An **agentic workflow** for materials-informatics (MI) engineers, built with **L
 
    Now, invoke `mi_agent …` in the same terminal session you entered your API keys:
    ```bash
-   mi_agent --problem-file <path/to/problem.txt> --output-dir <path/to/output_dir>
+   materials_informatics_agent --problem-file <path/to/problem.txt> --output-dir <path/to/output_dir>
    ```
 
    MI-Agent will:
