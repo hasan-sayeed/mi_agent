@@ -38,21 +38,31 @@ An **agentic workflow** for materials-informatics (MI) engineers, built with **L
 
 1. Create & activate a conda environment  
    ```bash
-   conda create -n mi-agent python=3.10 -y
-   conda activate mi-agent
+   conda create -n mi_agent python=3.10 -y
+   conda activate mi_agent
    ```
 
 2. Install via pip
    ```bash
-   pip install mi-agent
+   pip install mi_agent
    ```
 
-3. Configure your API keys
+3. Configure your API keys **for this session**
+
+   _You’ll need to re-enter these each time you open a new terminal._
    
-   Create a `.env` file in your project folder:
+   MI-Agent reads **only** from real environment variables. Set them in your shell before running:
+   
+   Windows PowerShell:
    ```bash
-   LANGCHAIN_API_KEY=lsv2_...
-   OPENAI_API_KEY=sk-...
+   $Env:OPENAI_API_KEY = "sk-…"
+   $Env:LANGCHAIN_API_KEY = "lsv2_..."      <---- your LangSmith API key
+   ```
+
+   macOS/Linux (bash, zsh):
+   ```bash
+   export OPENAI_API_KEY ="sk-…"
+   export LANGCHAIN_API_KEY="lsv2_..."      <---- your LangSmith API key
    ```
 
 4. Prepare your problem file
@@ -72,6 +82,8 @@ An **agentic workflow** for materials-informatics (MI) engineers, built with **L
    ```
 
 5. Run the agent
+
+   Now, invoke `mi_agent …` in the same terminal session you entered your API keys:
    ```bash
    mi_agent --problem-file <path/to/problem.txt> --output-dir <path/to/output_dir>
    ```
@@ -82,7 +94,7 @@ An **agentic workflow** for materials-informatics (MI) engineers, built with **L
    - Merge files if needed
    - Select target & features
    - Propose & execute EDA
-   - Save all generated code (`*.py`) for EDA analysi and images (`*.png`) generated during EDA into <output_dir>
+   - Save all generated code (`*.py`) for EDA analysis and images (`*.png`) generated during EDA into <output_dir>
    - Run AutoML baseline + hyperparameter tuning
    - Emit a two-page executive summary
    - Log every step to LangSmith
@@ -92,14 +104,14 @@ An **agentic workflow** for materials-informatics (MI) engineers, built with **L
 
 1. Clone the repo
    ```bash
-   git clone https://github.com/hasan-sayeed/MI-Agent.git
-   cd MI-Agent
+   git clone https://github.com/hasan-sayeed/mi_agent.git
+   cd mi_agent
    ```
 
 2. Create & activate the conda env from `environment.yml`
    ```bash
-   conda env create -f environment.yml -n mi-agent
-   conda activate mi-agent
+   conda env create -f environment.yml -n mi_agent
+   conda activate mi_agent
    ```
 
 3. Install in editable mode
@@ -107,15 +119,25 @@ An **agentic workflow** for materials-informatics (MI) engineers, built with **L
    pip install -e .
    ```
 
-4. Configure your API keys
+4. Configure your API keys **for this session**
+
+   _You’ll need to re-enter these each time you open a new terminal._
    
-   Create a `.env` file in the project root (next to `README.md` and `setup.py`):
+   MI-Agent reads **only** from real environment variables. Set them in your shell before running:
+   
+   Windows PowerShell:
    ```bash
-   LANGCHAIN_API_KEY=lsv2_...
-   OPENAI_API_KEY=sk-...
+   $Env:OPENAI_API_KEY = "sk-…"
+   $Env:LANGCHAIN_API_KEY = "lsv2_..."      <---- your LangSmith API key
    ```
 
-5. Prepare your problem file as above and then:
+   macOS/Linux (bash, zsh):
+   ```bash
+   export OPENAI_API_KEY ="sk-…"
+   export LANGCHAIN_API_KEY="lsv2_..."      <---- your LangSmith API key
+   ```
+
+5. Prepare your problem file as above and then invoke `mi_agent …` in the same terminal session you entered your API keys::
    ```bash
    mi_agent --problem-file <path/to/problem.txt> --output-dir <path/to/output_dir>
    ```
