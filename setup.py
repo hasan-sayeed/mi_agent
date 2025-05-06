@@ -11,7 +11,7 @@ from setuptools import setup, find_packages
 
 if __name__ == "__main__":
     setup(
-        name="mi_agent",
+        name="miagent",
         use_scm_version={"version_scheme": "no-guess-dev"},
         setup_requires=["setuptools_scm"],
         # ---------------------------------------------------
@@ -44,7 +44,7 @@ if __name__ == "__main__":
         entry_points={
             "console_scripts": [
                 # now running `mi-agent ...` will invoke mi_agent.__main__.main()
-                "mi_agent = mi_agent.__main__:main",
+                "miagent = mi_agent.__main__:main",
             ],
         },
         # ---------------------------------------------------
