@@ -5,14 +5,44 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 from mi_agent.app_config import settings
 
+# def get_llm():
+#     return ChatOpenAI(
+#         model=settings.model_name,
+#         temperature=settings.temperature,
+#     )
+
+# # shared LLM client (fresh from settings)
+# _llm = get_llm()
+
 def get_llm():
+    """Always build a fresh ChatOpenAI with the current Settings."""
     return ChatOpenAI(
         model=settings.model_name,
         temperature=settings.temperature,
     )
 
-# shared LLM client (fresh from settings)
-_llm = get_llm()
+
+class _LazyExtractor:
+    """
+    Wrapper around create_extractor that rebinds to a new LLM each time.
+    Preserves the .invoke(...) signature.
+    """
+    def __init__(self, tools, tool_choice, enable_inserts=False):
+        self.tools          = tools
+        self.tool_choice    = tool_choice
+        self.enable_inserts = enable_inserts
+
+    def invoke(self, *args, **kwargs):
+        llm       = get_llm()
+        extractor = create_extractor(
+            llm,
+            tools=self.tools,
+            tool_choice=self.tool_choice,
+            enable_inserts=self.enable_inserts
+        )
+        return extractor.invoke(*args, **kwargs)
+
+
 
 # 2) tool schemas
 class FilePath(BaseModel):
@@ -73,9 +103,17 @@ class EDAExplanation(BaseModel):
     explanation: str = Field(description="A written explanation of the result or error from the EDA code execution.")
 
 # 3) extractors
-file_path_extractor       = create_extractor(_llm, tools=[FilePathList], tool_choice="FilePathList", enable_inserts=True)
-eda_plan_extractor        = create_extractor(_llm, tools=[EDAPlanList],  tool_choice="EDAPlanList",  enable_inserts=True)
-merge_decision_extractor  = create_extractor(_llm, tools=[MergeDecision], tool_choice="MergeDecision", enable_inserts=True)
-target_selector_extractor = create_extractor(_llm, tools=[TargetFeatureSelection], tool_choice="TargetFeatureSelection", enable_inserts=True)
-eda_code_extractor        = create_extractor(_llm, tools=[EDACodeOutput], tool_choice="EDACodeOutput")
-eda_explainer             = create_extractor(_llm, tools=[EDAExplanation],  tool_choice="EDAExplanation")
+# file_path_extractor       = create_extractor(_llm, tools=[FilePathList], tool_choice="FilePathList", enable_inserts=True)
+# eda_plan_extractor        = create_extractor(_llm, tools=[EDAPlanList],  tool_choice="EDAPlanList",  enable_inserts=True)
+# merge_decision_extractor  = create_extractor(_llm, tools=[MergeDecision], tool_choice="MergeDecision", enable_inserts=True)
+# target_selector_extractor = create_extractor(_llm, tools=[TargetFeatureSelection], tool_choice="TargetFeatureSelection", enable_inserts=True)
+# eda_code_extractor        = create_extractor(_llm, tools=[EDACodeOutput], tool_choice="EDACodeOutput")
+# eda_explainer             = create_extractor(_llm, tools=[EDAExplanation],  tool_choice="EDAExplanation")
+
+# 3) lazy extractors
+file_path_extractor       = _LazyExtractor([FilePathList],      "FilePathList",      enable_inserts=True)
+eda_plan_extractor        = _LazyExtractor([EDAPlanList],       "EDAPlanList",       enable_inserts=True)
+merge_decision_extractor  = _LazyExtractor([MergeDecision],     "MergeDecision",     enable_inserts=True)
+target_selector_extractor = _LazyExtractor([TargetFeatureSelection], "TargetFeatureSelection", enable_inserts=True)
+eda_code_extractor        = _LazyExtractor([EDACodeOutput],     "EDACodeOutput")
+eda_explainer             = _LazyExtractor([EDAExplanation],     "EDAExplanation")

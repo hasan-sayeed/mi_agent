@@ -55,7 +55,7 @@ dependencies:
      - pdfkit==1.0.0
      - matplotlib==3.7.5
      - seaborn==0.13.2
-    #  - python-dotenv==1.1.0
+     - python-dotenv==1.1.0
     #  - pytest==8.3.5
     #  - pytest-cov==6.1.1
      # add here only pip-packages that are not available in conda/conda-forge! E.g.:

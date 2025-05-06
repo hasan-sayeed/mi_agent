@@ -17,7 +17,7 @@ from mi_agent.nodes.model_explanation import ModelExplainer
 from mi_agent.nodes.report import ReportGenerator
 from mi_agent.nodes.merge import MergeNode
 from mi_agent.states import MIExpertState, EDAExecutionState
-from mi_agent.app_config import settings
+from mi_agent.app_config import Settings, settings
 
 def initiate_eda_executions(state: MIExpertState):
     return [
@@ -81,6 +81,18 @@ def run(
         output_dir:    Optional override of mi_agent.config.OUTPUT_DIR;
                        if None, falls back to the environment‐aware default.
     """
+    # target_dir = settings.output_dir
+    # 1) Collect CLI overrides
+    override = {}
+    if output_dir:
+        override["output_dir"] = output_dir
+    if model_name:
+        override["model_name"] = model_name
+    # 2) Re-create and inject into our singleton
+    new_settings = Settings(**override)
+    settings.__dict__.update(new_settings.model_dump())
+
+    # now use the (possibly overridden) output_dir
     target_dir = settings.output_dir
 
     # read problem statement

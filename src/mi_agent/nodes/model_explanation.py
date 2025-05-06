@@ -1,5 +1,5 @@
 """Node: build an LLM prompt to explain why we chose the final model."""
-from mi_agent.extractors import _llm
+from mi_agent.extractors import get_llm
 from langchain_core.messages import HumanMessage
 from mi_agent.states import MIExpertState
 
@@ -47,5 +47,6 @@ class ModelExplainer:
         4. What the tuned hyperparameters reveal about the data/model.
         """
 
+        _llm = get_llm()
         resp = _llm.invoke([HumanMessage(content=prompt)])
         return {"model_explanation": resp.content}

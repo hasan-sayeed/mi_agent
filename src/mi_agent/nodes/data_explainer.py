@@ -2,7 +2,7 @@
 import pandas as pd
 from typing import List
 from langchain_openai import ChatOpenAI
-from mi_agent.extractors import _llm  # reuse same client
+from mi_agent.extractors import get_llm
 from mi_agent.states import GenerateEDAAgentsState
 
 class DataExplainer:
@@ -12,6 +12,7 @@ class DataExplainer:
     def read_and_explain_data(state: GenerateEDAAgentsState) -> dict:
         """Return LLM descriptions for each path."""
         explanations: List[str] = []
+        _llm = get_llm()
         for path in state["file_paths"]:
             df = pd.read_csv(path)
             prompt = f"""

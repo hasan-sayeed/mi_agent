@@ -1,15 +1,15 @@
 """Global configuration and constants for InsightForge."""
 import os
 import getpass
+from dotenv import load_dotenv, find_dotenv
 
-# #: where all generated code & images & report go
-# OUTPUT_DIR = os.getenv("MI_AGENT_OUTPUT_DIR", os.path.abspath("data"))
+# 1) Try to load a .env automatically from cwd or any parent
+# 2) Allow override via MI_AGENT_ENV_FILE
 
-# #: which OpenAI model to use for all calls
-# MODEL_NAME = os.getenv("MI_AGENT_MODEL_NAME", "gpt-4.1-mini")
-
-# #: temperature or other defaults
-# TEMPERATURE = float(os.getenv("MI_AGENT_TEMP", "0"))
+env_path = os.getenv("MI_AGENT_ENV_FILE") or find_dotenv()
+if env_path:
+    print(f"🔍 Loading environment variables from: {env_path}", flush=True)
+    load_dotenv(env_path, override=False)
 
 def set_env(var: str):
     """Prompt for and set an environment variable if not already set."""
