@@ -5,15 +5,6 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 from mi_agent.app_config import settings
 
-# def get_llm():
-#     return ChatOpenAI(
-#         model=settings.model_name,
-#         temperature=settings.temperature,
-#     )
-
-# # shared LLM client (fresh from settings)
-# _llm = get_llm()
-
 def get_llm():
     """Always build a fresh ChatOpenAI with the current Settings."""
     return ChatOpenAI(

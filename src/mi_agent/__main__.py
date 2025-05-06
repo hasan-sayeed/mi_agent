@@ -1,6 +1,5 @@
 import argparse
 from mi_agent import orchestrator
-from mi_agent.app_config import Settings, settings
 
 def main():
     p = argparse.ArgumentParser(
@@ -21,17 +20,6 @@ def main():
     )
     args = p.parse_args()
 
-    # # 1) Collect CLI overrides
-    # override = {}
-    # if args.output_dir:
-    #     override["output_dir"] = args.output_dir
-    # if args.model:
-    #     override["model_name"] = args.model
-    # # 2) Re-create and inject into our singleton
-    # new_settings = Settings(**override)
-    # settings.__dict__.update(new_settings.model_dump())
-    
-      # delay until settings is updated
     orchestrator.run(problem_txt_path=args.problem_file, output_dir=args.output_dir, model_name=args.model)
 
 if __name__ == "__main__":

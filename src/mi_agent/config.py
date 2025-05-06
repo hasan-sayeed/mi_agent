@@ -8,7 +8,6 @@ from dotenv import load_dotenv, find_dotenv
 
 env_path = os.getenv("MI_AGENT_ENV_FILE") or find_dotenv()
 if env_path:
-    print(f"🔍 Loading environment variables from: {env_path}", flush=True)
     load_dotenv(env_path, override=False)
 
 def set_env(var: str):
