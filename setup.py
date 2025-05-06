@@ -11,7 +11,7 @@ from setuptools import setup, find_packages
 
 if __name__ == "__main__":
     setup(
-        name="miagent",
+        name="materials_informatics_agent",
         use_scm_version={"version_scheme": "no-guess-dev"},
         setup_requires=["setuptools_scm"],
         # ---------------------------------------------------
@@ -44,12 +44,12 @@ if __name__ == "__main__":
         entry_points={
             "console_scripts": [
                 # now running `mi-agent ...` will invoke mi_agent.__main__.main()
-                "miagent = mi_agent.__main__:main",
+                "materials_informatics_agent = mi_agent.__main__:main",
             ],
         },
         # ---------------------------------------------------
         # Metadata (fill in as desired)
-        author="Your Name",
+        author="Hasan Sayeed",
         description="A LangGraph/LLM‐driven EDA → AutoML → report pipeline",
         long_description=open("README_PYPI.md", encoding="utf-8").read(),
         long_description_content_type="text/markdown",
