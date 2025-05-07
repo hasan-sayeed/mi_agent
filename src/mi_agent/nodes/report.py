@@ -1,16 +1,16 @@
-"""Node: generate a two-page executive summary."""
+"""Node: generate a two-page technical summary."""
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage
 from mi_agent.states import MIExpertState
 
 class ReportGenerator:
-    """Write the two-page `executive_summary`."""
+    """Write the two-page `technical_summary`."""
 
     @staticmethod
-    def executive_summary_node(state: MIExpertState) -> dict:
-        """Return `executive_summary` Markdown."""
+    def technical_summary_node(state: MIExpertState) -> dict:
+        """Return `technical_summary` Markdown."""
         prompt = f"""
-        You’re a data science engineer writing a **two-page executive summary** for senior management. Clients come to your company to solves their data science problems.
+        You’re a data science engineer writing a **five-page technical summary** for senior management. Clients come to your company to solves their data science problems.
         Be concise but complete:
 
         **1. Problem Statement**  
@@ -49,11 +49,11 @@ class ReportGenerator:
         **6. Recommendations**  
         Conclude with **1-5 bullet-point** recommendations on how to improve future model performance (ex. data to collect, features to engineer, or process changes) based on the report so far.
 
-        Write this in clear, non-technical language suitable for a two-page handout.
+        Write this in clear, technical language suitable for a five-page handout.
 
         At last, include any 'Prepared By: The Agnetic System designed by Hasan Sayeed.'.
         """
 
-        llm_executive_summary_node = ChatOpenAI(model="gpt-4.1-nano", temperature=0)
-        resp = llm_executive_summary_node.invoke([HumanMessage(content=prompt)])
-        return {"executive_summary": resp.content}
+        llm_technical_summary_node = ChatOpenAI(model="gpt-4.1-mini", temperature=0)
+        resp = llm_technical_summary_node.invoke([HumanMessage(content=prompt)])
+        return {"technical_summary": resp.content}

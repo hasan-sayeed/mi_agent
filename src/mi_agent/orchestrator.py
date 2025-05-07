@@ -18,6 +18,7 @@ from mi_agent.nodes.report import ReportGenerator
 from mi_agent.nodes.merge import MergeNode
 from mi_agent.states import MIExpertState, EDAExecutionState
 from mi_agent.app_config import Settings, settings
+from mi_agent.config import env_path
 
 def initiate_eda_executions(state: MIExpertState):
     return [
@@ -50,7 +51,7 @@ def build_graph() -> StateGraph:
     builder.add_node("quick_baseline", QuickBaseline.run_quick_baseline)
     builder.add_node("hyperparameter_tuning", HyperparameterTuner.hyperparameter_tuning)
     builder.add_node("ml_explanation_node", ModelExplainer.ml_explanation_node)
-    builder.add_node("executive_summary_node", ReportGenerator.executive_summary_node)
+    builder.add_node("technical_summary_node", ReportGenerator.technical_summary_node)
 
     # wiring
     builder.add_edge(START,       "identify_file_paths")
@@ -63,8 +64,8 @@ def build_graph() -> StateGraph:
     builder.add_edge("eda_execution_subgraph","quick_baseline")
     builder.add_edge("quick_baseline","hyperparameter_tuning")
     builder.add_edge("hyperparameter_tuning","ml_explanation_node")
-    builder.add_edge("ml_explanation_node","executive_summary_node")
-    builder.add_edge("executive_summary_node", END)
+    builder.add_edge("ml_explanation_node","technical_summary_node")
+    builder.add_edge("technical_summary_node", END)
     return builder.compile(checkpointer=MemorySaver())
 
 def run(
@@ -74,14 +75,15 @@ def run(
 ):
     """
     Run the full MI-Agent pipeline on the given problem statement, then
-    render & save the executive_summary.pdf.
+    render & save the technical_summary.pdf.
 
     Args:
         problem_txt_path: path to a .txt file containing the problem.
         output_dir:    Optional override of mi_agent.config.OUTPUT_DIR;
                        if None, falls back to the environment‐aware default.
     """
-    
+    if env_path:
+        print(f"🔍 Loading environment variables from: {env_path}")
     # target_dir = settings.output_dir
     # 1) Collect CLI overrides
     override = {}
@@ -109,7 +111,7 @@ def run(
 
     # generate PDF
     final_state = graph.get_state(thread).values
-    md = final_state["executive_summary"]
+    md = final_state["technical_summary"]
     html_body = markdown.markdown(md)
     html = f"""<!DOCTYPE html>
     <html lang="en"><head><meta charset="utf-8">
@@ -135,6 +137,6 @@ def run(
     }
 
     os.makedirs(target_dir, exist_ok=True)
-    pdf_path = os.path.join(target_dir, "executive_summary.pdf")
+    pdf_path = os.path.join(target_dir, "technical_summary.pdf")
     pdfkit.from_string(html, pdf_path, options=opts)
     print(f"✅ Saved nicely formatted PDF to {pdf_path}")

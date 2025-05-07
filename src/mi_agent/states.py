@@ -44,4 +44,4 @@ class MIExpertState(TypedDict):
     best_model_name: str
     best_params: Dict[str, Any]
     model_explanation: str
-    executive_summary: str
+    technical_summary: str

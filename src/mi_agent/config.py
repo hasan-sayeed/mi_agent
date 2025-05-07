@@ -27,7 +27,6 @@ else:
         env_path = find_dotenv(usecwd=True) or ""
 
 if env_path:
-    print(f"🔍 Loading environment variables from: {env_path}", file=sys.stderr)
     load_dotenv(env_path, override=False)
 
 # now prompt for anything still missing
