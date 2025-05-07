@@ -18,8 +18,8 @@ An **agentic workflow** for materials-informatics (MI) engineers, built with **L
 
 - **Conda** (Miniconda or Anaconda)  
 - **Python 3.10**  
-- **OpenAI API key**  
-- **LangSmith API key**  
+- [**OpenAI API key**](https://platform.openai.com/api-keys)
+- [**LangSmith API key**](https://docs.smith.langchain.com/administration/how_to_guides/organization_management/create_account_api_key)
 
 ---
 
@@ -38,25 +38,18 @@ An **agentic workflow** for materials-informatics (MI) engineers, built with **L
 
 3. Configure your API keys **for this session**
 
-   _You’ll need to re-enter these each time you open a new terminal._
-   
-   MI-Agent reads **only** from real environment variables. Set them in your shell before running:
-   
-   Windows PowerShell:
-   ```bash
-   $Env:OPENAI_API_KEY = "sk-…"
-   $Env:LANGCHAIN_API_KEY = "lsv2_..."      <---- your LangSmith API key
-   ```
+   **MI-Agent** will automatically look for a file named `.env` in your current working directory (or any parent) and load any keys it finds.  
 
-   macOS/Linux (bash, zsh):
+   In the folder where you’ll run the CLI (or in any ancestor), create a file called **`.env`** containing:
+
    ```bash
-   export OPENAI_API_KEY ="sk-…"
-   export LANGCHAIN_API_KEY="lsv2_..."      <---- your LangSmith API key
+   OPENAI_API_KEY=sk-…
+   LANGCHAIN_API_KEY=lsv2_…
    ```
 
 4. Prepare your problem file
    
-   MI-Agent requires a `.txt` file (an example is provided in the `sample_problem.txt` in the project root) which contains:
+   MI-Agent requires a `.txt` file (an example is provided in the `sample_problem.txt` in the project root of the [source code](https://github.com/hasan-sayeed/mi_agent)) which contains:
 
    - your problem description
 

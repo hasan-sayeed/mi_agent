@@ -140,3 +140,5 @@ def run(
     pdf_path = os.path.join(target_dir, "technical_summary.pdf")
     pdfkit.from_string(html, pdf_path, options=opts)
     print(f"✅ Saved nicely formatted PDF to {pdf_path}")
+
+    return md

@@ -54,7 +54,7 @@ if __name__ == "__main__":
         description="A LangGraph/LLM‐driven EDA → AutoML → report pipeline",
         long_description=open("README_PYPI.md", encoding="utf-8").read(),
         long_description_content_type="text/markdown",
-        url="https://github.com/yourusername/MI-Agent",
+        url="https://github.com/hasan-sayeed/MI-Agent",
         classifiers=[
             "Programming Language :: Python :: 3.10",
             "License :: OSI Approved :: MIT License",
