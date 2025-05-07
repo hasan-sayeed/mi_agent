@@ -36,7 +36,7 @@ An **agentic workflow** for materials-informatics (MI) engineers, built with **L
    pip install materials_informatics_agent
    ```
 
-3. Configure your API keys **for this session**
+3. Configure your API keys
 
    **MI-Agent** will automatically look for a file named `.env` in your current working directory (or any parent) and load any keys it finds.  
 
