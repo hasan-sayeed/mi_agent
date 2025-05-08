@@ -12,9 +12,12 @@ class HyperparameterTuner:
     def hyperparameter_tuning(state: MIExpertState) -> dict:
         """Return best_model_name, best_model_object, best_params."""
 
-        # load data & state
-        df        = pd.read_csv(state["file_paths"][0])
+        # load full DataFrame and then sub-select features + target
+        df_full   = pd.read_csv(state["file_paths"][0])
+        features  = state["feature_columns"]       # list of column names
         target    = state["target_column"]
+        # build a clean df with only selected features + target
+        df        = df_full[features + [target]].copy()
         task      = state["task_type"]
         name_list = state["initial_models"]
 
