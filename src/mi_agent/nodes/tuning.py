@@ -1,5 +1,6 @@
 """Node: hyperparameter tuning via Optuna in PyCaret."""
 import pandas as pd
+import numpy as np
 from mi_agent.states import MIExpertState
 import pycaret.classification as clf
 import pycaret.regression as reg
@@ -48,9 +49,11 @@ class HyperparameterTuner:
                         search_library='optuna',
                         search_algorithm='tpe',
                         optimize='Accuracy',
-                        choose_better=True
+                        choose_better=True,
+                        fit_kwargs={"error_score": np.nan}
                     )
                 except ValueError:
+                    # if tuning itself fails, fall back to the base model
                     tuned_model = base
                 tuned.append(tuned_model)
             best = clf.compare_models(include=tuned, n_select=1)
@@ -63,13 +66,15 @@ class HyperparameterTuner:
                 try:
                     tuned_model = reg.tune_model(
                         base,
-                        n_iter=30,
+                        n_iter=5,
                         search_library='optuna',
                         search_algorithm='tpe',
                         optimize='R2',
                         choose_better=True
                     )
-                except ValueError:
+                    print(f"Tuning passed!!!!!!!!!")
+                except Exception as e:
+                    print(f"Tuning failed ({e}), falling back to baseline.")
                     tuned_model = base
                 tuned.append(tuned_model)
             best = reg.compare_models(include=tuned, n_select=1)

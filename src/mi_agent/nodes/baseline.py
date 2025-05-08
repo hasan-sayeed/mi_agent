@@ -12,7 +12,12 @@ class QuickBaseline:
             from pycaret.classification import pull, setup as cls_setup, compare_models as cmp
         else:
             from pycaret.regression import pull, setup as reg_setup, compare_models as cmp
-        df = pd.read_csv(state["file_paths"][0])
+        # load full DataFrame and then sub-select features + target
+        df_full   = pd.read_csv(state["file_paths"][0])
+        features  = state["feature_columns"]       # list of column names
+        target    = state["target_column"]
+        # build a clean df with only selected features + target
+        df        = df_full[features + [target]].copy()
         if state["task_type"] == "classification":
             cls_setup(df, target=state["target_column"], html=False)
         else:
