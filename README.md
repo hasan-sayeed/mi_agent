@@ -11,7 +11,7 @@
 
 # MI-Agent
 
-An **agentic workflow** for materials-informatics (MI) engineers, built with **LangGraph** and powered by OpenAI models. MI-Agent codifies the end-to-end MI pipeline—data loading, merging, feature selection, EDA, AutoML baselining, hyperparameter tuning, and executive reporting—into reusable nodes orchestrated as a LangGraph. LangSmith integration tracks and visualizes your graph executions. The result? MI workflows that run in seconds instead of hours, boosting your productivity by an order of magnitude.
+An **agentic workflow** for materials-informatics (MI) engineers, built with **LangGraph** and powered by OpenAI models. MI-Agent codifies the end-to-end MI pipeline—data loading, merging, feature selection, EDA, AutoML baselining, hyperparameter tuning, and executive reporting—into reusable nodes orchestrated as a LangGraph. LangSmith integration tracks and records each step of the graph executions. The result? MI workflows that run in seconds instead of hours, boosting your productivity by an order of magnitude.
 
 ---
 
@@ -20,7 +20,7 @@ An **agentic workflow** for materials-informatics (MI) engineers, built with **L
 - **Agentic LangGraph design** lets you hit “play” on a full MI pipeline  
 - **10× faster**: eliminate boilerplate and manual scripting  
 - **Extensible nodes**: swap in your own extractors, metrics, or plots  
-- **LangSmith-backed** for graph tracking, versioning, and observability  
+- **LangSmith-backed** for logging and tracing each step of the agent's reasoning  
 - Production-ready: versionable, testable, pip-installable
 
 ---
@@ -29,8 +29,25 @@ An **agentic workflow** for materials-informatics (MI) engineers, built with **L
 
 - **Conda** (Miniconda or Anaconda)  
 - **Python 3.10**  
-- **OpenAI API key**  
-- **LangSmith API key**  
+- **OpenAI API key** - to power the Agentic pipeline with LLM that drives decision-making and code generation
+- **LangSmith API key** - to log and trace each step of the agent's reasoning using LangGraph
+
+---
+
+## 📘 Google Colab Tutorial
+
+To help you get started quickly, we’ve prepared an interactive Google Colab tutorial:
+
+**[Google Colab Tutorial: Getting Started with MI-Agent](https://colab.research.google.com/github/hasan-sayeed/mi_agent/blob/master/notebooks/mi_agent_tutorial.ipynb)**
+
+In this tutorial, you'll learn how to:
+
+- Install MI-Agent and all necessary dependencies on Colab  
+- Write a valid `problem.txt` file describing your task and pointing to your data  
+- Run the agent with a single command  
+- View the generated EDA code, plots, and summary in your Google Drive output folder
+
+The tutorial runs entirely in Colab—no local setup required. All you need is access to your Google Drive and valid OpenAI/LangSmith API keys.
 
 ---
 
@@ -47,22 +64,15 @@ An **agentic workflow** for materials-informatics (MI) engineers, built with **L
    pip install mi_agent
    ```
 
-3. Configure your API keys **for this session**
+3. Configure your API keys
 
-   _You’ll need to re-enter these each time you open a new terminal._
-   
-   MI-Agent reads **only** from real environment variables. Set them in your shell before running:
-   
-   Windows PowerShell:
-   ```bash
-   $Env:OPENAI_API_KEY = "sk-…"
-   $Env:LANGCHAIN_API_KEY = "lsv2_..."      <---- your LangSmith API key
-   ```
+   **MI-Agent** will automatically look for a file named `.env` in your current working directory (or any parent) and load any keys it finds.  
 
-   macOS/Linux (bash, zsh):
+   In the folder where you’ll run the CLI (or in any ancestor), create a file called **`.env`** containing:
+
    ```bash
-   export OPENAI_API_KEY ="sk-…"
-   export LANGCHAIN_API_KEY="lsv2_..."      <---- your LangSmith API key
+   OPENAI_API_KEY=sk-…
+   LANGCHAIN_API_KEY=lsv2_…
    ```
 
 4. Prepare your problem file
@@ -83,21 +93,21 @@ An **agentic workflow** for materials-informatics (MI) engineers, built with **L
 
 5. Run the agent
 
-   Now, invoke `mi_agent …` in the same terminal session you entered your API keys:
+   Now, start the `mi_agent` pipeline as below:
    ```bash
    mi_agent --problem-file <path/to/problem.txt> --output-dir <path/to/output_dir>
    ```
 
-   MI-Agent will:
+   **MI-Agent** will:
 
    - Identify & load the CSV(s) listed in the problem file
    - Merge files if needed
    - Select target & features
    - Propose & execute EDA
    - Save all generated code (`*.py`) for EDA analysis and images (`*.png`) generated during EDA into <output_dir>
-   - Run AutoML baseline + hyperparameter tuning
-   - Emit a two-page executive summary
-   - Log every step to LangSmith
+   - Run multiple ML models, select top 5, tune hyperparameters, and choose the best model
+   - Generate and save a 5-page technical summary into <output_dir>
+   - Log all reasoning steps to LangSmith
 
 
 ## From source: clone & run
@@ -119,25 +129,18 @@ An **agentic workflow** for materials-informatics (MI) engineers, built with **L
    pip install -e .
    ```
 
-4. Configure your API keys **for this session**
+4. Configure your API keys
 
-   _You’ll need to re-enter these each time you open a new terminal._
-   
-   MI-Agent reads **only** from real environment variables. Set them in your shell before running:
-   
-   Windows PowerShell:
+   **MI-Agent** will automatically look for a file named `.env` in the root directory of the project.  
+
+   In the root directory of the project, create a file called **`.env`** containing:
+
    ```bash
-   $Env:OPENAI_API_KEY = "sk-…"
-   $Env:LANGCHAIN_API_KEY = "lsv2_..."      <---- your LangSmith API key
+   OPENAI_API_KEY=sk-…
+   LANGCHAIN_API_KEY=lsv2_…
    ```
 
-   macOS/Linux (bash, zsh):
-   ```bash
-   export OPENAI_API_KEY ="sk-…"
-   export LANGCHAIN_API_KEY="lsv2_..."      <---- your LangSmith API key
-   ```
-
-5. Prepare your problem file as above and then invoke `mi_agent …` in the same terminal session you entered your API keys::
+5. Prepare your problem file as above and then start the `mi_agent` pipeline as below:
    ```bash
    mi_agent --problem-file <path/to/problem.txt> --output-dir <path/to/output_dir>
    ```
@@ -198,13 +201,16 @@ We welcome improvements, new extractors, and integrations!
 
 ## Feedback & Feature Requests
 
-Your feedback drives MI-Agent’s roadmap!
+This project demonstrates a **proof of concept** of what's possible with agentic systems in materials informatics. While MI-Agent works out-of-the-box for many scenarios, your use case may involve more complex pipelines, simulation data, unstructured inputs, or custom modeling needs.
 
-- Open an issue on GitHub
+Have something bigger in mind? Want MI-Agent to handle new data types, integrate with your lab workflow, or adapt to your domain?
 
-- Email the maintainers at `hasan.sayeed.utah.edu`
+**We'd love to hear from you!**
 
-Let’s make materials-informatics ten times faster—together!
+- Open a GitHub issue
+- Or reach out directly at hasan.sayeed@utah.edu   
+
+Let’s shape the future of agentic systems in materials science—together.
 
 ## Note
 

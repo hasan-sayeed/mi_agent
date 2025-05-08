@@ -65,18 +65,18 @@ An **agentic workflow** for materials-informatics (MI) engineers, built with **L
 
 5. Run the agent
 
-   Now, invoke `mi_agent …` in the same terminal session you entered your API keys:
+   Now, start the `mi_agent` pipeline as below:
    ```bash
    mi_agent --problem-file <path/to/problem.txt> --output-dir <path/to/output_dir>
    ```
 
-   MI-Agent will:
+   **MI-Agent** will:
 
    - Identify & load the CSV(s) listed in the problem file
    - Merge files if needed
    - Select target & features
    - Propose & execute EDA
    - Save all generated code (`*.py`) for EDA analysis and images (`*.png`) generated during EDA into <output_dir>
-   - Run AutoML baseline + hyperparameter tuning
-   - Emit a two-page executive summary
-   - Log every step to LangSmith
+   - Run multiple ML models, select top 5, tune hyperparameters, and choose the best model
+   - Generate and save a 5-page technical summary into <output_dir>
+   - Log all reasoning steps to LangSmith
