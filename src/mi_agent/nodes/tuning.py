@@ -82,7 +82,7 @@ class HyperparameterTuner:
 
         if isinstance(best, list):
             best = best[0]
-        print(ids)
+
         return {
             "best_model_name": type(best).__name__,
             "best_model_object": best,
