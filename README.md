@@ -15,7 +15,7 @@
 
 # MI-Agent
 
-![MI-Agent-logo](docs/_static/MI-Agent-logo.jpg)
+![MI-Agent-logo](docs/_static/MI-Agent-logo-updated.jpg)
 
 ***MI-Agent Workflow:*** *A modular multi-agent system that automates data ingestion, EDA, model selection, and technical report generation for materials informatics problems.*
 
