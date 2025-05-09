@@ -37,14 +37,23 @@ class ModelExplainer:
         prompt += f"""
 
         Hyperparameter tuning:
+        We then tuned hyperparameters of each of those models and obtained:
+        """
+        for res in state['tuned_model_results']:
+            prompt += "  • {Model}: MAE={MAE:.3f}, MSE={MSE:.3f}, R2={R2:.3f}\n".format(**res)
+
+        # --- Final choice ---
+        prompt += f"""
         Final chosen model: {state['best_model_name']}
         Tuned parameters: {state['best_params']}
 
-        Please write a clear and brief rationale that covers:
-        1. Why AutoML selected those initial models.
-        2. How the EDA insights supported that choice.
-        3. Why the final model outperformed the others.
-        4. What the tuned hyperparameters reveal about the data/model.
+        Please write a clear, structured rationale that covers:
+        1. **Why** AutoML’s initial ranking picked those baselines (point to their MAE/MSE/R2 etc. elaborately).  
+        2. **How** our EDA insights reinforce or explain that ranking.  
+        3. **How** the hyperparameter tuning shifted performance (reference specific metric changes elaborately in the tuned table).  
+        4. **Why** the final model came out on top (tie back to both its baseline and tuned metrics).  
+        5. **What** the specific tuned parameters reveal about the data or modeling choices.  
+        6. **What to expect** from the final model in deployment—its strengths, assumptions, and any limitations.
         """
 
         _llm = get_llm()

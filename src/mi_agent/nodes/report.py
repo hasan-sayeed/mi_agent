@@ -40,11 +40,17 @@ class ReportGenerator:
 
         **5. Model Selection & Performance**  
         - We used AutoML to evaluate a broad suite of models and identified these {len(state['initial_models'])} as the top-performing baselines:  
-        {', '.join(state['initial_models'])}.  
+        {', '.join(state['initial_models'])}.
+        - Please summarize how these models performed on the dataset (e.g., R², MAE) in natural language (don't show tables. You can show nested bullet points instead) using the analysis provided in the following block:
+        
+        ```
+        {state['model_explanation']}
+        ```
         - We then performed hyperparameter tuning on each of those models.  
-        - The final chosen model is **{state['best_model_name']}**, with tuned parameters: {state['best_params']}.  
+        - The final chosen model is **{state['best_model_name']}**, with tuned parameters: {state['best_params']}.
+        - Describe how this final model performed on the dataset (e.g., final R² and MAE) in natural language (don't show tables. You can show nested bullet points instead) based on the same analysis provided in the above block.  
         - **Why it excelled**: tie this back to your EDA insights (e.g. features with strong correlations, robustness to outliers, data distribution characteristics).
-        Here is a broad exploration of model selection and performance that was written before: {state['model_explanation']}. You can follow this if you want.
+        - Finally, include a short reflection (2–3 lines) on what to expect from this model — its strengths, assumptions, and any limitations.
 
         **6. Recommendations**  
         Conclude with **1-5 bullet-point** recommendations on how to improve future model performance (ex. data to collect, features to engineer, or process changes) based on the report so far.
@@ -52,6 +58,8 @@ class ReportGenerator:
         Write this in clear, technical language suitable for a five-page handout.
 
         At last, include any 'Prepared By: The Agnetic System designed by Hasan Sayeed.'.
+
+        Please do not say anything like 'Please let me know if you require further details...' at the end or anywhere else.
         """
 
         llm_technical_summary_node = ChatOpenAI(model="gpt-4.1-mini", temperature=0)

@@ -41,6 +41,7 @@ class MIExpertState(TypedDict):
     explanation: Annotated[List[str], operator.add]
     initial_models: List[str]
     initial_model_results: List[Dict[str, Any]]
+    tuned_model_results: List[Dict[str, Any]]
     best_model_name: str
     best_params: Dict[str, Any]
     model_explanation: str
