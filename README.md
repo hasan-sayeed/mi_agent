@@ -11,6 +11,10 @@
 
 # MI-Agent
 
+![MI-Agent-logo](docs/_static/MI-Agent-logo.jpg)
+
+*MI-Agent Workflow: A modular multi-agent system that automates data ingestion, EDA, model selection, and technical report generation for materials informatics problems.*
+
 An **agentic workflow** for materials-informatics (MI) engineers, built with **LangGraph** and powered by OpenAI models. MI-Agent codifies the end-to-end MI pipeline—data loading, merging, feature selection, EDA, AutoML baselining, hyperparameter tuning, and executive reporting—into reusable nodes orchestrated as a LangGraph. LangSmith integration tracks and records each step of the graph executions. The result? MI workflows that run in seconds instead of hours, boosting your productivity by an order of magnitude.
 
 ---
