@@ -1,4 +1,8 @@
 [![Project generated with PyScaffold](https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold)](https://pyscaffold.org/)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hasan-sayeed/mi_agent/blob/master/notebooks/mi_agent_tutorial.ipynb)
+[![GitHub issues](https://img.shields.io/github/issues/hasan-sayeed/mi_agent)](https://github.com/hasan-sayeed/mi_agent/issues)
+[![GitHub Discussions](https://img.shields.io/github/discussions/hasan-sayeed/mi_agent)](https://github.com/hasan-sayeed/mi_agent/discussions)
+[![Last Committed](https://img.shields.io/github/last-commit/hasan-sayeed/mi_agent)](https://github.com/hasan-sayeed/mi_agent/commits/main/)
 <!-- These are examples of badges you might also want to add to your README. Update the URLs accordingly.
 [![Built Status](https://api.cirrus-ci.com/github/<USER>/MI-Agent.svg?branch=main)](https://cirrus-ci.com/github/<USER>/MI-Agent)
 [![ReadTheDocs](https://readthedocs.org/projects/MI-Agent/badge/?version=latest)](https://MI-Agent.readthedocs.io/en/stable/)
@@ -13,7 +17,7 @@
 
 ![MI-Agent-logo](docs/_static/MI-Agent-logo.jpg)
 
-*MI-Agent Workflow: A modular multi-agent system that automates data ingestion, EDA, model selection, and technical report generation for materials informatics problems.*
+***MI-Agent Workflow:*** *A modular multi-agent system that automates data ingestion, EDA, model selection, and technical report generation for materials informatics problems.*
 
 An **agentic workflow** for materials-informatics (MI) engineers, built with **LangGraph** and powered by OpenAI models. MI-Agent codifies the end-to-end MI pipeline—data loading, merging, feature selection, EDA, AutoML baselining, hyperparameter tuning, and executive reporting—into reusable nodes orchestrated as a LangGraph. LangSmith integration tracks and records each step of the graph executions. The result? MI workflows that run in seconds instead of hours, boosting your productivity by an order of magnitude.
 
